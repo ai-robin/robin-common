@@ -1,4 +1,13 @@
+# Pycharm
 .idea/
+
+# Virtualenv
 .venv/
+
+# Byte-compiled files
 *.pyc
 __pycache__/
+
+# Packaging
+*.egg-info/
+*.egg
