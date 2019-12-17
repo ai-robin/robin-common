@@ -1,6 +1,6 @@
 from unittest.mock import patch
 
-from common.storage_client import StorageClient
+from robin_common import StorageClient
 
 ORIGINAL_DOCS_BUCKET = "original-bucket"
 DOCX_BUCKET = "docx-bucket"
@@ -8,7 +8,7 @@ JSON_BUCKET = "json-bucket"
 
 
 class TestStorageClient:
-    @patch("common.storage_client.storage")
+    @patch("robin_common.storage_client.storage")
     def test_gcloud_api_calls(self, mock_storage):
         client = StorageClient()
         mock_client = mock_storage.Client.return_value
