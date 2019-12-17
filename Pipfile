@@ -9,6 +9,7 @@ pytest = "*"
 [packages]
 setuptools = "*"
 google-cloud-storage = "*"
+python-docx = "*"
 
 [requires]
 python_version = "3.7"
