@@ -9,5 +9,6 @@ setup(
     author_email="robin@robintech.io",
     license="",
     packages=find_packages(exclude=["tests"]),
+    install_requires=["google-cloud-storage>=1.23.0"],
     zip_safe=True,
 )
