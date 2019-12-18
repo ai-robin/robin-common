@@ -26,7 +26,17 @@ class TestCloudFile:
         file = CloudFile(name=name, bucket="a_Bucket")
         assert file.extension == extension
 
-    @pytest.mark.parametrize("name", ["just_a-dir/", "dir/file-without-extension"])
+    @pytest.mark.parametrize(
+        "name",
+        [
+            "just_a-dir/",
+            "dir/file-without-extension",
+            "dir.with.dots/somefile",
+            "ends-with-dot.",
+            "ends-with.1234",
+            "ends-with.xxxxx",
+        ],
+    )
     def test_error_for_files_without_extension(self, storage_client, name):
         with pytest.raises(ValueError, match=f"File '{name}' missing extension."):
             CloudFile(name=name, bucket="bucket")

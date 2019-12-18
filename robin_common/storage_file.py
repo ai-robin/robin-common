@@ -6,8 +6,8 @@ from robin_common import StorageClient
 class CloudFile:
     """
     Container that wraps a given file in a cloud storage bucket.
-    This interface should be kept consistent, regardless of the
-    cloud storage provider used (GCP, AWS, etc).
+    The interface for fetching and saving files should be kept consistent,
+    regardless of the cloud storage provider used (GCP, AWS, etc).
     """
 
     def __init__(self, name: str, bucket: str, contents: bytes = None):
@@ -37,7 +37,7 @@ class CloudFile:
 
     def _validate_name(self, name: str) -> str:
         """Ensure file has extension."""
-        if not re.match(r".+\.[A-Za-z]", name):
+        if not re.match(r".+\.[A-Za-z]{1,4}$", name):
             err = f"File '{name}' missing extension."
             raise ValueError(err)
         return name
