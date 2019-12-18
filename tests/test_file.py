@@ -68,3 +68,16 @@ class TestCloudFile:
         assert mock_storage.save_file.mock_calls == [
             call("else.docx", "some-bucket", b"something")
         ]
+
+    def test_cloud_storage_called_when_needed_on_contents(self, storage_client):
+        mock_storage = storage_client.return_value
+        mock_storage.get_file.return_value = b"loaded"
+
+        file = CloudFile(name="else.docx", bucket="some-bucket")
+
+        assert not file.storage.get_file.called
+        assert file.contents == b"loaded"  # Contents are fetched
+        assert file.storage.get_file.called
+
+        assert file.contents == b"loaded"
+        assert len(file.storage.get_file.mock_calls) == 1  # Existing contents used

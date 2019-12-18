@@ -16,7 +16,7 @@ class CloudFile:
     ):
         self.name = self._validate_name(name)
         self.bucket = bucket
-        self.contents = contents
+        self._contents = contents
         self.storage = StorageClient()
 
     def _validate_name(self, name: str) -> str:
@@ -43,8 +43,14 @@ class CloudFile:
         """Isolates the entire filepath and name, *without* extension."""
         return self.name.split(".")[-2]
 
+    @property
+    def contents(self):
+        if not self._contents:
+            self.fetch()
+        return self._contents
+
     def fetch(self):
-        self.contents = self.storage.get_file(self.name, self.bucket)
+        self._contents = self.storage.get_file(self.name, self.bucket)
 
     def save(self):
-        self.storage.save_file(self.name, self.bucket, self.contents)
+        self.storage.save_file(self.name, self.bucket, self._contents)
