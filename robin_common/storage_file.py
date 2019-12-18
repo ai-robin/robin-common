@@ -19,16 +19,16 @@ class CloudFile:
         self.contents = contents
         self.storage = StorageClient()
 
-    def fetch(self):
-        self.contents = self.storage.get_file(self.name, self.bucket)
-
-    def save(self):
-        self.storage.save_file(self.name, self.bucket, self.contents)
+    def _validate_name(self, name: str) -> str:
+        if not re.match(r".+\.[A-Za-z]{1,4}$", name):
+            err = f"File '{name}' missing extension."
+            raise ValueError(err)
+        return name
 
     @classmethod
     def from_gcp_event(cls, event: dict):
         """
-        Populate CloudFile from a Google Cloud Storage object.
+        Construct CloudFile from a Google Cloud Storage object.
         See: https://cloud.google.com/storage/docs/json_api/v1/objects#resource
         """
         return cls(name=event["name"], bucket=event["bucket"])
@@ -43,8 +43,8 @@ class CloudFile:
         """Isolates the entire filepath and name, *without* extension."""
         return self.name.split(".")[-2]
 
-    def _validate_name(self, name: str) -> str:
-        if not re.match(r".+\.[A-Za-z]{1,4}$", name):
-            err = f"File '{name}' missing extension."
-            raise ValueError(err)
-        return name
+    def fetch(self):
+        self.contents = self.storage.get_file(self.name, self.bucket)
+
+    def save(self):
+        self.storage.save_file(self.name, self.bucket, self.contents)

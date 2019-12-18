@@ -30,7 +30,7 @@ class TestCloudFile:
         "name,basename",
         [
             ("a_very/long-dir/with/file.HTmL", "a_very/long-dir/with/file"),
-            ("just_a_file.JSON", "just_a_file"),
+            ("just_A_file.JSON", "just_A_file"),
         ],
     )
     def test_basename_isolation(self, storage_client, name, basename):
