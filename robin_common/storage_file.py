@@ -1,4 +1,5 @@
 import re
+import typing
 
 from robin_common import StorageClient
 
@@ -10,7 +11,9 @@ class CloudFile:
     regardless of the cloud storage provider used (GCP, AWS, etc).
     """
 
-    def __init__(self, name: str, bucket: str, contents: bytes = None):
+    def __init__(
+        self, name: str, bucket: str, contents: typing.Union[bytes, str] = None
+    ):
         self.name = self._validate_name(name)
         self.bucket = bucket
         self.contents = contents
@@ -35,8 +38,12 @@ class CloudFile:
         extension = self.name.split(".")[-1]
         return extension.lower()
 
+    @property
+    def basename(self) -> str:
+        """Isolates the entire filepath and name, *without* extension."""
+        return self.name.split(".")[-2]
+
     def _validate_name(self, name: str) -> str:
-        """Ensure file has extension."""
         if not re.match(r".+\.[A-Za-z]{1,4}$", name):
             err = f"File '{name}' missing extension."
             raise ValueError(err)

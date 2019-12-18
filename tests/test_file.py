@@ -27,14 +27,26 @@ class TestCloudFile:
         assert file.extension == extension
 
     @pytest.mark.parametrize(
+        "name,basename",
+        [
+            ("a_very/long-dir/with/file.HTmL", "a_very/long-dir/with/file"),
+            ("just_a_file.JSON", "just_a_file"),
+        ],
+    )
+    def test_basename_isolation(self, storage_client, name, basename):
+        file = CloudFile(name=name, bucket="something")
+        assert file.basename == basename
+
+    @pytest.mark.parametrize(
         "name",
         [
             "just_a-dir/",
             "dir/file-without-extension",
             "dir.with.dots/somefile",
             "ends-with-dot.",
-            "ends-with.1234",
-            "ends-with.xxxxx",
+            "ends-with.1234",  # numeric extension
+            "ends-with.xxxxx",  # extension > 4 chars
+            ".doc",  # extension only
         ],
     )
     def test_error_for_files_without_extension(self, storage_client, name):
