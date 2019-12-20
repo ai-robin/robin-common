@@ -1,4 +1,5 @@
 import io
+from unittest.mock import Mock, patch
 
 import docx
 
@@ -10,7 +11,7 @@ def test_from_bytes_to_docx():
         contents = f.read()
     doc = WordDocument.from_bytes(contents)
 
-    assert doc.text == "Line 1\nLine 2\nLine 3"
+    assert doc.text == "Line 1\n \nLine 2\n \nLine 3"
 
 
 def test_from_docx_to_bytes():
@@ -28,3 +29,18 @@ def test_from_docx_to_bytes():
     doc = docx.Document(io.BytesIO(output))
     paras = [para.text for para in doc.paragraphs]
     assert paras == lines
+
+
+def test_text_extraction():
+    paragraphs = [
+        Mock(text="a"),
+        Mock(text=""),
+        Mock(text=""),
+        Mock(text="b"),
+        Mock(text=""),
+        Mock(text="c"),
+        Mock(text="d"),
+        Mock(text=""),
+    ]
+    with patch.object(WordDocument, "paragraphs", new=paragraphs):
+        assert WordDocument(Mock).text == "a\n \n \nb\n \nc\nd\n "
