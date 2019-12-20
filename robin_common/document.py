@@ -28,6 +28,4 @@ class WordDocument:
 
     @property
     def text(self) -> str:
-        return "\n".join(
-            para.text if len(para.text) else " " for para in self.paragraphs
-        )
+        return "".join(para.text if len(para.text) else " " for para in self.paragraphs)

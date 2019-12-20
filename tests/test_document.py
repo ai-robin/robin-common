@@ -11,7 +11,7 @@ def test_from_bytes_to_docx():
         contents = f.read()
     doc = WordDocument.from_bytes(contents)
 
-    assert doc.text == "Line 1\n \nLine 2\n \nLine 3"
+    assert doc.text == "Line 1 Line 2 Line 3"
 
 
 def test_from_docx_to_bytes():
@@ -43,4 +43,4 @@ def test_text_extraction():
         Mock(text=""),
     ]
     with patch.object(WordDocument, "paragraphs", new=paragraphs):
-        assert WordDocument(Mock).text == "a\n \n \nb\n \nc\nd\n "
+        assert WordDocument(Mock).text == "a  b cd "
