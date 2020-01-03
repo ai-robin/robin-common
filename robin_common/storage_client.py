@@ -27,7 +27,7 @@ class StorageClient(metaclass=Singleton):
         bucket = self.client.get_bucket(bucket)
         file = bucket.blob(filename)
         with open(local_filename, "wb") as file_obj:
-            blob.download_to_file(file_obj)
+            file.download_to_file(file_obj)
 
     def save_file(self, filename: str, bucket: str, contents: bytes):
         bucket = self.client.get_bucket(bucket)
