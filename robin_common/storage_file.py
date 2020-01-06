@@ -54,3 +54,6 @@ class CloudFile:
 
     def save(self):
         self.storage.save_file(self.name, self.bucket, self._contents)
+
+    def download(self, local_filename):
+        self.storage.download_file(self.name, self.bucket, local_filename)
