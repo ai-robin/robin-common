@@ -33,7 +33,7 @@ class WordDocument:
     def default_paragraph_font(self):
         """ Determines the deafult paragraph font used within the document. """
 
-        if self.doc.document.styles.default(WD_STYLE_TYPE.PARAGRAPH):
-            return self.doc.document.styles.default(WD_STYLE_TYPE.PARAGRAPH).font
+        if self.document.styles.default(WD_STYLE_TYPE.PARAGRAPH):
+            return self.document.styles.default(WD_STYLE_TYPE.PARAGRAPH).font
 
         return None
