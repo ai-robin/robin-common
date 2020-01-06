@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 import docx
 from docx.text import paragraph
-
+from docx.enum.style import WD_STYLE_TYPE
 
 @dataclass
 class WordDocument:
@@ -29,3 +29,11 @@ class WordDocument:
     @property
     def text(self) -> str:
         return "".join(para.text if len(para.text) else " " for para in self.paragraphs)
+
+    def default_paragraph_font(self):
+        """ Determines the deafult paragraph font used within the document. """
+
+        if self.doc.document.styles.default(WD_STYLE_TYPE.PARAGRAPH):
+            return self.doc.document.styles.default(WD_STYLE_TYPE.PARAGRAPH).font
+
+        return None
